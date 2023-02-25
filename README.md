@@ -21,24 +21,35 @@
 
 # Setup Database using docker
 1. Jalankan service docker desktop
-2. Jalankan posgresql di docker
-    ```docker
-    docker run --rm \
-	    --name invoice-db \
-        -e POSTGRES_DB=invoicedb \
-        -e POSTGRES_USER=invoice \
-	    -e POSTGRES_PASSWORD=FvKmDaHdz6Mby9aL43kZ \
-	    -e PGDATA=/var/lib/postgresql/data/pgdata \
-	    -v /tmp:/var/lib/postgresql/data \
-	     -p 5432:5432 \
-          postgres:13
-    ```
-   2. Buka terminal pada docker & ketik command berikut: 
-   ```
-    psql -h 127.0.0.1 -U invoice invoicedb
-   ```
-   3. Buat properties di resources/application.yml
-   ```yml
-   
-   ```
+   2. Jalankan posgresql di docker
+       ```docker
+       docker run --rm \
+           --name invoice-db \
+           -e POSTGRES_DB=invoicedb \
+           -e POSTGRES_USER=invoice \
+           -e POSTGRES_PASSWORD=FvKmDaHdz6Mby9aL43kZ \
+           -e PGDATA=/var/lib/postgresql/data/pgdata \
+           -v "$pwd/invoice_db:/var/lib/postgresql/data" \
+            -p 5432:5432 \
+             postgres:13
+       ```
+      2. Buka terminal pada docker & ketik command berikut: 
+      ```
+       psql -h 127.0.0.1 -U invoice invoicedb
+      ```
+      3. Buat properties di resources/application.yml
+      ```yml
+      spring:
+       datasource:
+        url: jdbc:postgresql://localhost/invoicedb
+        username: invoice
+        password: FvKmDaHdz6Mby9aL43kZ
+       jpa:
+         hibernate:
+          ddl-auto: validate
+       show-sql: true
+       properties:
+        hibernate:
+          format_sql: true
+      ```
 
